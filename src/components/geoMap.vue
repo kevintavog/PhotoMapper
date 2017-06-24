@@ -37,7 +37,21 @@ export default {
           html: '<img class="markerImage" src="' + p.thumbnail + '" width="100%" height="100%" />'
         })
 
-        markers.push(Leaflet.marker([p.latitude, p.longitude], { icon: thumbnailIcon, photo: p }))
+        var mark = Leaflet.marker([p.latitude, p.longitude], { icon: thumbnailIcon, photo: p })
+
+        mark.bindPopup('<img id="' + p.popupsImage + '" src="' + p.popupsImage + '" />', { maxWidth: 'auto', photo: p })
+
+        // In order for the visible popup container to both be (a) bigger than the image and (b) centered over the
+        // marker, update the popup (recalculate size & position) when the popup is opened as well as when the image
+        // finishes loading.
+        this.map.on('popupopen', evt => {
+          var imgEle = document.getElementById('' + evt.popup.options.photo.popupsImage + '')
+          imgEle.onload = () => {
+            evt.popup.update()
+          }
+          evt.popup.update()
+        })
+        markers.push(mark)
       }
 
       this.cluster.addLayers(markers)
