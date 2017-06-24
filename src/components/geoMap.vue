@@ -97,7 +97,7 @@ export default {
     this.map = newMap
     this.cluster = newCluster
 
-    this.$store.commit('loadPhotosList', 'static/photos.json')
+    this.$store.commit('loadPhotosList', 'static/photodata/photos.json')
   }
 
 }
