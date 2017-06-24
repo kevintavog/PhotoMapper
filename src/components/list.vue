@@ -43,9 +43,11 @@ export default {
 }
 
 .listImage {
-  margin-left: 6px;
-  margin-top: 6px;
-  margin-bottom: 0px;
+  border: 2px solid #fff;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 2px;
+  margin-bottom: -3px;
 }
 
 </style>

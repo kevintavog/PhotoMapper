@@ -67,13 +67,15 @@ export default {
       spiderfyDistanceMultiplier: 3,
       iconCreateFunction: clstr => {
         var childMarkers = clstr.getAllChildMarkers()
-        var count = childMarkers.length
         var firstPhoto = childMarkers[0].options.photo
-        var html = '<div class="clusterContainer"> <img class="clusterImage" src="' + firstPhoto.thumbnail + '" width="100%" height="100%"> <span class="c-badge c-badge--rounded clusterText">' + count + '</span>  </div>'
 
         return Leaflet.divIcon({
           iconSize: [firstPhoto.width / 2, firstPhoto.height / 2],
-          html: html
+          html:
+            '<div class="clusterContainer"> ' +
+              '<img class="clusterImage" src="' + firstPhoto.thumbnail + '" width="100%" height="100%">' +
+              '<span class="c-badge c-badge--rounded clusterText">' + childMarkers.length + '</span>' +
+            '</div>'
         })
       }
     })
@@ -109,34 +111,6 @@ export default {
   border: 2px solid #fff;
   box-shadow: 3px 3px 10px #888;
 }
-
-/*.leaflet-marker-photo {
-  border: 2px solid #fff;
-  box-shadow: 3px 3px 10px #888;
-}
-
-.leaflet-marker-photo div {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.leaflet-marker-photo b {
-  position: absolute;
-  top: -7px;
-  right: -11px;
-  color: #555;
-  background-color: #fff;
-  border-radius: 8px;
-  height: 12px;
-  min-width: 12px;
-  line-height: 12px;
-  text-align: center;
-  padding: 3px;
-  box-shadow: 0 3px 14px rgba(0,0,0,0.4);
-}*/
 
 </style>
 
