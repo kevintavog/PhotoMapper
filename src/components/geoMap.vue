@@ -22,18 +22,23 @@ export default {
 
   computed: {
     ...mapState({
-      photoList: state => state.photoList,
+      photoInfo: state => state.photoInfo,
       errorList: state => state.errorList
     })
   },
 
   watch: {
-    photoList () {
-      // Add bounds to json file and zoom to the bounds
+    photoInfo () {
+      var geoEpsilon = 0.002     // The bounds are tight, give a bit more space so everything is visible
+      var bounds = this.photoInfo.bounds
+      this.map.fitBounds([
+          [bounds.minLatitude - geoEpsilon, bounds.minLongitude - geoEpsilon],
+          [bounds.maxLatitude + geoEpsilon, bounds.maxLongitude + geoEpsilon]])
+
       var markers = []
-      for (var p of this.photoList) {
+      for (var p of this.photoInfo.photos) {
         var thumbnailIcon = Leaflet.divIcon({
-          iconSize: [p.width / 2, p.height / 2],
+          iconSize: [p.thumbWidth / 2, p.thumbHeight / 2],
           html: '<img class="markerImage" src="' + p.thumbnail + '" width="100%" height="100%" />'
         })
 
@@ -42,14 +47,12 @@ export default {
         mark.bindPopup('<img id="' + p.popupsImage + '" src="' + p.popupsImage + '" />', { maxWidth: 'auto', photo: p })
 
         // In order for the visible popup container to both be (a) bigger than the image and (b) centered over the
-        // marker, update the popup (recalculate size & position) when the popup is opened as well as when the image
-        // finishes loading.
+        // marker, update the popup (recalculate size & position) when the image finishes loading.
         this.map.on('popupopen', evt => {
           var imgEle = document.getElementById('' + evt.popup.options.photo.popupsImage + '')
           imgEle.onload = () => {
             evt.popup.update()
           }
-          evt.popup.update()
         })
         markers.push(mark)
       }
@@ -77,14 +80,15 @@ export default {
     Leaflet.control.scale({ position: 'bottomright' }).addTo(newMap)
 
     var newCluster = Leaflet.markerClusterGroup({
-      maxClusterRadius: 30,
       spiderfyDistanceMultiplier: 3,
+      maxClusterRadius: 50,
+      showCoverageOnHover: false,
       iconCreateFunction: clstr => {
         var childMarkers = clstr.getAllChildMarkers()
         var firstPhoto = childMarkers[0].options.photo
 
         return Leaflet.divIcon({
-          iconSize: [firstPhoto.width / 2, firstPhoto.height / 2],
+          iconSize: [firstPhoto.thumbWidth / 2, firstPhoto.thumbHeight / 2],
           html:
             '<div class="clusterContainer"> ' +
               '<img class="clusterImage" src="' + firstPhoto.thumbnail + '" width="100%" height="100%">' +
@@ -97,7 +101,7 @@ export default {
     this.map = newMap
     this.cluster = newCluster
 
-    this.$store.commit('loadPhotosList', 'static/photodata/photos.json')
+    this.$store.commit('loadPhotos', 'static/photodata/photos.json')
   }
 
 }

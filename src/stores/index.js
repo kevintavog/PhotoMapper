@@ -6,12 +6,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    photoList: [],
+    photoInfo: { photos: [] },
     errorList: []
   },
 
   mutations: {
-    loadPhotosList (state, url) {
+    loadPhotos (state, url) {
       axios.get(url)
         .then(response => {
           if (response.status === 200) {
@@ -19,7 +19,7 @@ export default new Vuex.Store({
             list.forEach(p => {
               p.dateTime = new Date(p.timestamp)
             })
-            state.photoList = list
+            state.photoInfo = response.data
           } else {
             state.errorList.push('Request failed: %d, %s', response.status, response.data)
           }

@@ -1,6 +1,6 @@
 <template>
   <div class="list ">
-      <div class="listItem" v-for="(photo,index) in this.photoList" >
+      <div class="listItem" v-for="(photo,index) in this.photoInfo.photos" >
           <img class="listImage" :src="photo.thumbnail" />
       </div>
   </div>
@@ -15,7 +15,7 @@ export default {
 
   computed: {
     ...mapState({
-      photoList: state => state.photoList,
+      photoInfo: state => state.photoInfo,
       errorList: state => state.errorList
     })
   },
