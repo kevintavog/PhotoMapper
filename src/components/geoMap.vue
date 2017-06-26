@@ -1,6 +1,7 @@
 <template>
-  <div class="geoMap" id="theMap" >
+  <div class="geoMap" id="theMap" tabIndex="1">
   </div>
+
 </template>
 
 
@@ -77,13 +78,16 @@ export default {
       var markers = []
       for (var p of this.photoInfo.photos) {
         var mark = Leaflet.marker([p.latitude, p.longitude], { icon: this.getDefaultThumbnailIcon(p), photo: p })
+        mark.on('click', evt => {
+          this.$store.commit('selectItem', {item: evt.target.options.photo, zoomTo: false})
+        })
 
-        mark.bindPopup(
-          '<div class="c-text u-xlarge" > ' +
-            '<img id="marker-' + p.popupsImage + '" src="' + p.popupsImage + '" /> ' +
-            '<div> ' + p.dateTime.toDateString() + ', ' + p.dateTime.toLocaleTimeString() + ' </div>' +
-          '</div>',
-          { maxWidth: 'auto', photo: p })
+        // mark.bindPopup(
+        //   '<div class="c-text u-xlarge" > ' +
+        //     '<img id="marker-' + p.popupsImage + '" src="' + p.popupsImage + '" /> ' +
+        //     '<div> ' + p.dateTime.toDateString() + ', ' + p.dateTime.toLocaleTimeString() + ' </div>' +
+        //   '</div>',
+        //   { maxWidth: 'auto', photo: p })
         p.marker = mark
 
         // In order for the visible popup container to both be (a) bigger than the image and (b) centered over the
