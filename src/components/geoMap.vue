@@ -16,18 +16,57 @@ export default {
   data () {
     return {
       map: null,
-      cluster: null
+      cluster: null,
+      locallySelectedPhoto: null
+    }
+  },
+
+  methods: {
+    getDefaultThumbnailIcon: function (photo) {
+      return Leaflet.divIcon({
+        iconSize: [photo.thumbWidth / 2, photo.thumbHeight / 2],
+        html: '<img class="markerImage" src="' + photo.thumbnail + '" width="100%" height="100%" />'
+      })
+    },
+
+    getSelectedThumbnailIcon: function (photo) {
+      return Leaflet.divIcon({
+        iconSize: [photo.thumbWidth / 1.4, photo.thumbHeight / 1.4],
+        html: '<img class="selectedMarkerImage" src="' + photo.thumbnail + '" width="100%" height="100%" />'
+      })
     }
   },
 
   computed: {
     ...mapState({
       photoInfo: state => state.photoInfo,
-      errorList: state => state.errorList
+      errorList: state => state.errorList,
+      selectedItem: state => state.selectedItem,
+      zoomToSelected: state => state.zoomToSelected
     })
   },
 
   watch: {
+    selectedItem () {
+      if (this.locallySelectedPhoto) {
+        this.locallySelectedPhoto.marker.setIcon(this.getDefaultThumbnailIcon(this.locallySelectedPhoto))
+      }
+
+      if (this.selectedItem) {
+        this.locallySelectedPhoto = this.selectedItem
+        this.locallySelectedPhoto.marker.setIcon(this.getSelectedThumbnailIcon(this.locallySelectedPhoto))
+
+        // this.map.panTo([this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude])
+        if (this.zoomToSelected) {
+          this.map.fitBounds([
+            [this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude],
+            [this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude]])
+        }
+      } else {
+        this.locallySelectedPhoto = null
+      }
+    },
+
     photoInfo () {
       var geoEpsilon = 0.002     // The bounds are tight, give a bit more space so everything is visible
       var bounds = this.photoInfo.bounds
@@ -37,19 +76,21 @@ export default {
 
       var markers = []
       for (var p of this.photoInfo.photos) {
-        var thumbnailIcon = Leaflet.divIcon({
-          iconSize: [p.thumbWidth / 2, p.thumbHeight / 2],
-          html: '<img class="markerImage" src="' + p.thumbnail + '" width="100%" height="100%" />'
-        })
+        var mark = Leaflet.marker([p.latitude, p.longitude], { icon: this.getDefaultThumbnailIcon(p), photo: p })
 
-        var mark = Leaflet.marker([p.latitude, p.longitude], { icon: thumbnailIcon, photo: p })
-
-        mark.bindPopup('<img id="' + p.popupsImage + '" src="' + p.popupsImage + '" />', { maxWidth: 'auto', photo: p })
+        mark.bindPopup(
+          '<div class="c-text u-xlarge" > ' +
+            '<img id="marker-' + p.popupsImage + '" src="' + p.popupsImage + '" /> ' +
+            '<div> ' + p.dateTime.toDateString() + ', ' + p.dateTime.toLocaleTimeString() + ' </div>' +
+          '</div>',
+          { maxWidth: 'auto', photo: p })
+        p.marker = mark
 
         // In order for the visible popup container to both be (a) bigger than the image and (b) centered over the
         // marker, update the popup (recalculate size & position) when the image finishes loading.
         this.map.on('popupopen', evt => {
-          var imgEle = document.getElementById('' + evt.popup.options.photo.popupsImage + '')
+          this.$store.commit('selectItem', {item: evt.popup.options.photo, zoomTo: false})
+          var imgEle = document.getElementById('marker-' + evt.popup.options.photo.popupsImage + '')
           imgEle.onload = () => {
             evt.popup.update()
           }
@@ -127,6 +168,11 @@ export default {
 
 .markerImage {
   border: 2px solid #fff;
+  box-shadow: 3px 3px 10px #888;
+}
+
+.selectedMarkerImage {
+  border: 3px solid #0099ff;
   box-shadow: 3px 3px 10px #888;
 }
 

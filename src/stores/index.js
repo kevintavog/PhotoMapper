@@ -7,7 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     photoInfo: { photos: [] },
-    errorList: []
+    errorList: [],
+    selectedItem: null,
+    zoomToSelected: false
   },
 
   mutations: {
@@ -34,6 +36,18 @@ export default new Vuex.Store({
       var index = state.errorList.indexOf(error)
       if (index >= 0) {
         state.errorList.splice(index, 1)
+      }
+    },
+
+    selectItem (state, params) {
+      state.zoomToSelected = params.zoomTo
+      if (!params.item) {
+        state.selectedItem = null
+        return
+      }
+
+      if (params.item !== state.selectedItem) {
+        state.selectedItem = params.item
       }
     }
 
