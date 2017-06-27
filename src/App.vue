@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="c-text c-overlay">
+  <div id="app" class="c-text">
     <router-view></router-view>
   </div>
 </template>

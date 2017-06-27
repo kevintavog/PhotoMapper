@@ -1,18 +1,21 @@
 <template>
-  <div class="geoMap" id="theMap" tabIndex="1">
+  <div class="geoMap" id="theMap" >
+      <modalView></modalView>
   </div>
-
 </template>
 
 
 // ---------------
 <script>
+import modalView from './modalView'
 import { mapState } from 'vuex'
 import Leaflet from 'leaflet'
 import 'leaflet.markercluster'
 
 export default {
   name: 'geoMap',
+
+  components: { modalView },
 
   data () {
     return {
@@ -57,7 +60,6 @@ export default {
         this.locallySelectedPhoto = this.selectedItem
         this.locallySelectedPhoto.marker.setIcon(this.getSelectedThumbnailIcon(this.locallySelectedPhoto))
 
-        // this.map.panTo([this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude])
         if (this.zoomToSelected) {
           this.map.fitBounds([
             [this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude],
@@ -79,26 +81,14 @@ export default {
       for (var p of this.photoInfo.photos) {
         var mark = Leaflet.marker([p.latitude, p.longitude], { icon: this.getDefaultThumbnailIcon(p), photo: p })
         mark.on('click', evt => {
-          this.$store.commit('selectItem', {item: evt.target.options.photo, zoomTo: false})
-        })
-
-        // mark.bindPopup(
-        //   '<div class="c-text u-xlarge" > ' +
-        //     '<img id="marker-' + p.popupsImage + '" src="' + p.popupsImage + '" /> ' +
-        //     '<div> ' + p.dateTime.toDateString() + ', ' + p.dateTime.toLocaleTimeString() + ' </div>' +
-        //   '</div>',
-        //   { maxWidth: 'auto', photo: p })
-        p.marker = mark
-
-        // In order for the visible popup container to both be (a) bigger than the image and (b) centered over the
-        // marker, update the popup (recalculate size & position) when the image finishes loading.
-        this.map.on('popupopen', evt => {
-          this.$store.commit('selectItem', {item: evt.popup.options.photo, zoomTo: false})
-          var imgEle = document.getElementById('marker-' + evt.popup.options.photo.popupsImage + '')
-          imgEle.onload = () => {
-            evt.popup.update()
+          if (this.locallySelectedPhoto === evt.target.options.photo) {
+            this.$store.commit('selectItem', {item: null, zoomTo: false})
+          } else {
+            this.$store.commit('selectItem', {item: evt.target.options.photo, zoomTo: false})
           }
         })
+
+        p.marker = mark
         markers.push(mark)
       }
 
@@ -146,7 +136,7 @@ export default {
     this.map = newMap
     this.cluster = newCluster
 
-    this.$store.commit('loadPhotos', 'static/photodata/photos.json')
+    this.$store.commit('loadPhotos', './static/photodata/photos.json')
   }
 
 }

@@ -1,18 +1,12 @@
 <template>
-  <div class="o-modal modalView modalTopMost">
-    <div class="c-card">
-      <header class="c-card__header">
-        <button type="button" class="c-button c-button--close">×</button>
-        <h2 class="c-heading">Modal heading</h2>
-      </header>
-      <div class="c-card__body">
-        This is the modal body
-      </div>
-      <footer class="c-card__footer">
-        <button type="button" class="c-button c-button--brand">Close</button>
-      </footer>
+  <div v-show="hasSelection()" class="modalView">
+    <div class="modalContent">
+      <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" />
+      <div v-if="hasSelection()" class="u-large"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
+      <button type="button" class="c-button c-button--brand" v-on:click="closeModal()">Close</button>
     </div>
-  </div></template>
+  </div>
+</template>
 
 
 <script>
@@ -27,17 +21,13 @@ export default {
     })
   },
 
-  watch: {
-    selectedItem () {
-      if (this.selectedItem) {
-        console.log('modalView - selectedItem')
-      }
-    }
-  },
-
   methods: {
-    isSelected: function (photo) {
-      return photo === this.selectedItem
+    hasSelection: function () {
+      return !!this.selectedItem
+    },
+
+    closeModal: function () {
+      this.$store.commit('selectItem', {item: null, zoomTo: false})
     }
   },
 
@@ -52,9 +42,23 @@ export default {
 <style scoped>
 
 .modalView {
-  background-color: black;
+  position: relative;
   z-index: 10000;
+  max-width: 30%;
+  max-height: 30%;
+  left: 2px;
 }
 
+.modalContent {
+  background: black;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 3px;
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 100%;
+}
 
 </style>

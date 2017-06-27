@@ -1,6 +1,6 @@
 # PhotoMapper
 
-> Put a set of photos on a map
+> Show a set of photos with latitude & longitude on a map
 
 ## Build Setup
 
