@@ -43,14 +43,17 @@ export default {
 
 .modalView {
   position: relative;
+  background: white;
+  color: black;
   z-index: 10000;
   max-width: 30%;
   max-height: 30%;
   left: 2px;
+  padding: 6px;
+  border-radius: 10px;
 }
 
 .modalContent {
-  background: black;
   padding-left: 3px;
   padding-right: 3px;
   padding-bottom: 3px;
