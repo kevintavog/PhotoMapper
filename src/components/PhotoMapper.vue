@@ -1,5 +1,6 @@
 <template>
   <div class="photoMapper">
+      <modalView></modalView>
       <list></list>
       <geoMap></geoMap>
   </div>
@@ -9,10 +10,11 @@
 <script>
 import geoMap from './geoMap'
 import list from './list'
+import modalView from './modalView'
 
 export default {
   name: 'photomapper',
-  components: { geoMap, list },
+  components: { geoMap, list, modalView },
   data () {
     return {
     }

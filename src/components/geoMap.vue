@@ -1,21 +1,17 @@
 <template>
   <div class="geoMap" id="theMap" >
-      <modalView></modalView>
   </div>
 </template>
 
 
 // ---------------
 <script>
-import modalView from './modalView'
 import { mapState } from 'vuex'
 import Leaflet from 'leaflet'
 import 'leaflet.markercluster'
 
 export default {
   name: 'geoMap',
-
-  components: { modalView },
 
   data () {
     return {

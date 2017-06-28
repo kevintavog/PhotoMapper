@@ -1,9 +1,14 @@
 <template>
-  <div v-show="hasSelection()" class="modalView">
-    <div class="modalContent">
-      <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" />
-      <div v-if="hasSelection()" class="u-large"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
-      <button type="button" class="c-button c-button--brand" v-on:click="closeModal()">Close</button>
+  <div v-show="hasSelection()" class="o-modal modalView">
+    <div class="c-card">
+      <div class="c-card__body modalContent">
+        <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" />
+        <div v-if="hasSelection()" class="u-medium"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
+        <footer class="c-card__footer">
+            <a v-if="hasSelection()" :href="getStreetViewUrl()"> Street view </a>
+            <button type="button" class="c-button c-button--info u-small on-the-right" v-on:click="closeModal()">Close</button>
+        </footer>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +33,11 @@ export default {
 
     closeModal: function () {
       this.$store.commit('selectItem', {item: null, zoomTo: false})
+    },
+
+    getStreetViewUrl: function () {
+    //   return 'https://www.instantstreetview.com/@' + this.selectedItem.latitude + ',' + this.selectedItem.longitude + ',80.64h,5p,1z'
+      return `http://maps.google.com/maps?q=&layer=c&cbll=${this.selectedItem.latitude},${this.selectedItem.longitude}&cbp=11,0,0,0,0`
     }
   },
 
@@ -42,21 +52,14 @@ export default {
 <style scoped>
 
 .modalView {
-  position: relative;
-  background: white;
+  background-color: white;
   color: black;
   z-index: 10000;
   max-width: 30%;
-  max-height: 30%;
-  left: 2px;
-  padding: 6px;
-  border-radius: 10px;
-}
-
-.modalContent {
-  padding-left: 3px;
-  padding-right: 3px;
-  padding-bottom: 3px;
+  transform: none;
+  width:auto;
+  top: 5px;
+  left: 5px;
 }
 
 .modalImage {
@@ -64,4 +67,7 @@ export default {
   max-height: 100%;
 }
 
+.on-the-right {
+  float: right;
+}
 </style>
