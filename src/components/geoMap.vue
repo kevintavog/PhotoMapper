@@ -1,5 +1,17 @@
 <template>
   <div class="geoMap" id="theMap" >
+      <a aria-role="button" v-if="this.showFilmStrip"
+        class="c-button c-button--warning u-large c-text--loud filmToggle"
+        v-on:click="setFilmStripVisible(false)"
+        v-on:focus="toggleFocused()">
+          /\
+      </a>
+      <a aria-role="button" v-if="!this.showFilmStrip"
+        class="c-button c-button--warning u-large c-text--loud filmToggle"
+        v-on:click="setFilmStripVisible(true)"
+        v-on:focus="toggleFocused()">
+          \/
+      </a>
   </div>
 </template>
 
@@ -34,6 +46,14 @@ export default {
         iconSize: [photo.thumbWidth / 1.4, photo.thumbHeight / 1.4],
         html: '<img class="selectedMarkerImage" src="' + photo.thumbnail + '" width="100%" height="100%" />'
       })
+    },
+
+    setFilmStripVisible: function (visible) {
+      this.$store.commit('setFilmStripVisible', visible)
+    },
+
+    toggleFocused: function (evt) {
+      console.log('toggleFocused: %o', evt)
     }
   },
 
@@ -42,7 +62,8 @@ export default {
       photoInfo: state => state.photoInfo,
       errorList: state => state.errorList,
       selectedItem: state => state.selectedItem,
-      zoomToSelected: state => state.zoomToSelected
+      zoomToSelected: state => state.zoomToSelected,
+      showFilmStrip: state => state.showFilmStrip
     })
   },
 
@@ -181,6 +202,15 @@ export default {
   border-right: none;
   margin: 0;
   flex: 1 1 auto;
+}
+
+.filmToggle {
+  position: relative;
+  top: 0px;
+  left: 93%;
+  z-index: 10000;
+  line-height: 0.5em;
+  color: black;
 }
 
 </style>

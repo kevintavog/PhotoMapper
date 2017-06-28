@@ -9,7 +9,8 @@ export default new Vuex.Store({
     photoInfo: { photos: [] },
     errorList: [],
     selectedItem: null,
-    zoomToSelected: false
+    zoomToSelected: false,
+    showFilmStrip: true
   },
 
   mutations: {
@@ -49,6 +50,10 @@ export default new Vuex.Store({
       if (params.item !== state.selectedItem) {
         state.selectedItem = params.item
       }
+    },
+
+    setFilmStripVisible (state, isVisible) {
+      state.showFilmStrip = isVisible
     }
 
   }

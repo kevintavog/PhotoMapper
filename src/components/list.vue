@@ -1,5 +1,5 @@
 <template>
-  <div class="list ">
+  <div v-if="this.showFilmStrip" class="list ">
       <div class="listItem" :id="'listitem-' + photo.popupsImage" v-for="(photo,index) in this.photoInfo.photos" >
           <img class="listImage" :class="{ 'selectedListImage': isSelected(photo)}"
                 :src="photo.thumbnail"
@@ -19,7 +19,8 @@ export default {
     ...mapState({
       photoInfo: state => state.photoInfo,
       errorList: state => state.errorList,
-      selectedItem: state => state.selectedItem
+      selectedItem: state => state.selectedItem,
+      showFilmStrip: state => state.showFilmStrip
     })
   },
 
