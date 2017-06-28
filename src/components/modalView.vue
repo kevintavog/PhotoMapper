@@ -5,7 +5,8 @@
         <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" />
         <div v-if="hasSelection()" class="u-medium"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
         <footer class="c-card__footer">
-            <a v-if="hasSelection()" :href="getStreetViewUrl()"> Street view </a>
+            <a v-if="hasSelection()" :href="getStreetViewUrl()">Street view</a>
+            <a v-if="hasSelection()" :href="getAlternateStreetViewUrl()">(Alternate)</a>
             <button type="button" class="c-button c-button--info u-small on-the-right" v-on:click="closeModal()">Close</button>
         </footer>
       </div>
@@ -36,8 +37,11 @@ export default {
     },
 
     getStreetViewUrl: function () {
-    //   return 'https://www.instantstreetview.com/@' + this.selectedItem.latitude + ',' + this.selectedItem.longitude + ',80.64h,5p,1z'
       return `http://maps.google.com/maps?q=&layer=c&cbll=${this.selectedItem.latitude},${this.selectedItem.longitude}&cbp=11,0,0,0,0`
+    },
+
+    getAlternateStreetViewUrl: function () {
+      return `https://www.instantstreetview.com/@${this.selectedItem.latitude},${this.selectedItem.longitude},80.64h,5p,1z`
     }
   },
 

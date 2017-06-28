@@ -61,6 +61,11 @@ export default {
             [this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude],
             [this.locallySelectedPhoto.latitude, this.locallySelectedPhoto.longitude]])
         }
+
+        var parent = this.cluster.getVisibleParent(this.selectedItem.marker)
+        if ('spiderfy' in parent) {
+          parent.spiderfy()
+        }
       } else {
         this.locallySelectedPhoto = null
       }

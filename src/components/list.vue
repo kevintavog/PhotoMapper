@@ -64,6 +64,7 @@ export default {
   overflow-y: hidden;
   white-space: nowrap;
   background-color: #212F3D;
+  -webkit-overflow-scrolling: touch; /* Much better, more natural scrolling on iOS */
 }
 
 .listItem {
