@@ -2,11 +2,12 @@
   <div v-show="hasSelection()" class="o-modal modalView">
     <div class="c-card">
       <div class="c-card__body modalContent">
-        <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" />
+        <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" :width="selectedItem.popupWidth*.68" :height="selectedItem.popupHeight*.68" />
         <div v-if="hasSelection()" class="u-medium"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
         <footer class="c-card__footer">
-            <a v-if="hasSelection()" :href="getStreetViewUrl()">Street view</a>
-            <a v-if="hasSelection()" :href="getAlternateStreetViewUrl()">(Alternate)</a>
+            <a v-if="hasSelection()" :href="selectedItem.originalImage" target="_blank">Original</a>
+            <a v-if="hasSelection()" :href="getStreetViewUrl()" target="_blank">Street view</a>
+            <a v-if="hasSelection()" :href="getAlternateStreetViewUrl()" target="_blank">(Alternate)</a>
             <button type="button" class="c-button c-button--info u-small on-the-right" v-on:click="closeModal()">Close</button>
         </footer>
       </div>
@@ -59,16 +60,10 @@ export default {
   background-color: white;
   color: black;
   z-index: 10000;
-  max-width: 30%;
   transform: none;
   width:auto;
-  top: 5px;
-  left: 5px;
-}
-
-.modalImage {
-  max-width: 100%;
-  max-height: 100%;
+  top: 15px;
+  left: 15px;
 }
 
 .on-the-right {
