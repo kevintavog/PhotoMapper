@@ -28,8 +28,11 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log('error: %o', error)
-          state.errorList.push(error)
+          if (error.request) {
+            state.errorList.push(error.message + ' - ' + error.request.responseURL)
+          } else {
+            state.errorList.push(error.message + ' - ' + url)
+          }
         })
     },
 

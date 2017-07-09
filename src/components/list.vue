@@ -1,9 +1,17 @@
 <template>
-  <div v-if="this.showFilmStrip" class="list ">
-      <div class="listItem" :id="'listitem-' + photo.popupsImage" v-for="(photo,index) in this.photoInfo.photos" >
-          <img class="listImage" :class="{ 'selectedListImage': isSelected(photo)}"
-                :src="photo.thumbnail"
-                v-on:click="selectImage(photo)" />
+  <div>
+      <div v-if="this.showFilmStrip" class="list " >
+          <div >
+              <div class="c-alert c-alert--error" v-for="er in this.errorList">
+                  <button class="c-button c-button--close" v-on:click="removeError(er)">×</button>
+                  {{er}}
+              </div>
+          </div>
+          <div class="listItem" :id="'listitem-' + photo.popupsImage" v-for="(photo,index) in this.photoInfo.photos" >
+              <img class="listImage" :class="{ 'selectedListImage': isSelected(photo)}"
+                    :src="photo.thumbnail"
+                    v-on:click="selectImage(photo)" />
+          </div>
       </div>
   </div>
 </template>
@@ -36,6 +44,18 @@ export default {
   },
 
   methods: {
+    previous: function () {
+      console.log('prev')
+    },
+
+    next: function () {
+      console.log('next')
+    },
+
+    removeError: function (er) {
+      this.$store.commit('removeError', er)
+    },
+
     isSelected: function (photo) {
       return photo === this.selectedItem
     },
@@ -61,7 +81,7 @@ export default {
 
 .list {
   flex: 0 1 auto;
-  overflow-x: scroll;
+  /*overflow-x: scroll;*/ /* mobile only? */
   overflow-y: hidden;
   white-space: nowrap;
   background-color: #212F3D;

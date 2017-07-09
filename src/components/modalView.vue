@@ -4,6 +4,7 @@
       <div class="c-card__body modalContent">
         <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" :width="selectedItem.popupWidth*.68" :height="selectedItem.popupHeight*.68" />
         <div v-if="hasSelection()" class="u-medium"> {{selectedItem.dateTime.toDateString()}}, {{selectedItem.dateTime.toLocaleTimeString()}} </div>
+        <div v-if="hasCity()" class="u-medium"> {{selectedItem.city}}, {{selectedItem.country}} </div>
         <footer class="c-card__footer">
             <a v-if="hasSelection()" :href="selectedItem.originalImage" target="_blank">Original</a>
             <a v-if="hasSelection()" :href="getStreetViewUrl()" target="_blank">Street view</a>
@@ -29,6 +30,10 @@ export default {
   },
 
   methods: {
+    hasCity: function () {
+      return !!this.selectedItem && !!this.selectedItem.city
+    },
+
     hasSelection: function () {
       return !!this.selectedItem
     },
