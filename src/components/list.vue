@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="outerList">
       <div v-if="this.showFilmStrip" class="list " >
           <div >
               <div class="c-alert c-alert--error" v-for="er in this.errorList">
@@ -7,10 +7,10 @@
                   {{er}}
               </div>
           </div>
-          <div class="listItem" :id="'listitem-' + photo.popupsImage" v-for="(photo,index) in this.photoInfo.photos" >
-              <img class="listImage" :class="{ 'selectedListImage': isSelected(photo)}"
-                    :src="photo.thumbnail"
-                    v-on:click="selectImage(photo)" />
+          <div class="listItem" :id="'listitem-' + item.popupsImage" v-for="(item,index) in this.filteredItems" >
+              <img class="listImage" :class="{ 'selectedListImage': isSelected(item)}"
+                    :src="item.thumbnail"
+                    v-on:click="selectImage(item)" />
           </div>
       </div>
   </div>
@@ -25,7 +25,7 @@ export default {
 
   computed: {
     ...mapState({
-      photoInfo: state => state.photoInfo,
+      filteredItems: state => state.filteredItems,
       errorList: state => state.errorList,
       selectedItem: state => state.selectedItem,
       showFilmStrip: state => state.showFilmStrip
@@ -78,6 +78,10 @@ export default {
 
 
 <style scoped>
+
+.outerList {
+  min-height: 109px;
+}
 
 .list {
   flex: 0 1 auto;

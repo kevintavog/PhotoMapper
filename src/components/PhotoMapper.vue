@@ -2,19 +2,21 @@
   <div class="photoMapper">
       <modalView></modalView>
       <list></list>
+      <filterControls></filterControls>
       <geoMap></geoMap>
   </div>
 </template>
 
 
 <script>
+import filterControls from './filterControls'
 import geoMap from './geoMap'
 import list from './list'
 import modalView from './modalView'
 
 export default {
   name: 'photomapper',
-  components: { geoMap, list, modalView },
+  components: { geoMap, list, filterControls, modalView },
   data () {
     return {
     }

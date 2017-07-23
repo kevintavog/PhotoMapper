@@ -1,17 +1,25 @@
 <template>
   <div class="geoMap" id="theMap" >
-      <a aria-role="button" v-if="this.showFilmStrip"
-        class="c-button c-button--warning u-large c-text--loud filmToggle"
-        v-on:click="setFilmStripVisible(false)"
-        v-on:focus="toggleFocused()">
-          /\
-      </a>
-      <a aria-role="button" v-if="!this.showFilmStrip"
-        class="c-button c-button--warning u-large c-text--loud filmToggle"
-        v-on:click="setFilmStripVisible(true)"
-        v-on:focus="toggleFocused()">
-          \/
-      </a>
+      <div class="menus-on-right" >
+          <a aria-role="button"
+            class="c-button c-button--warning u-large c-text--loud filterButton"
+            v-on:click="toggleFilters()">
+              &#9776;
+          </a>
+
+          <a aria-role="button" v-if="this.showFilmStrip"
+            class="c-button c-button--warning u-large c-text--loud filmToggle"
+            v-on:click="setFilmStripVisible(false)"
+            v-on:focus="toggleFocused()">
+              &#9650;
+          </a>
+          <a aria-role="button" v-if="!this.showFilmStrip"
+            class="c-button c-button--warning u-large c-text--loud filmToggle"
+            v-on:click="setFilmStripVisible(true)"
+            v-on:focus="toggleFocused()">
+              &#9660;
+          </a>
+      </div>
   </div>
 </template>
 
@@ -48,6 +56,10 @@ export default {
       })
     },
 
+    toggleFilters: function () {
+      this.$store.commit('setShowFilters', !this.showFilters)
+    },
+
     setFilmStripVisible: function (visible) {
       this.$store.commit('setFilmStripVisible', visible)
     },
@@ -61,9 +73,11 @@ export default {
     ...mapState({
       photoInfo: state => state.photoInfo,
       errorList: state => state.errorList,
+      filteredItems: state => state.filteredItems,
       selectedItem: state => state.selectedItem,
       zoomToSelected: state => state.zoomToSelected,
-      showFilmStrip: state => state.showFilmStrip
+      showFilmStrip: state => state.showFilmStrip,
+      showFilters: state => state.showFilters
     })
   },
 
@@ -93,15 +107,17 @@ export default {
     },
 
     photoInfo () {
-      var geoEpsilon = 0.002     // The bounds are tight, give a bit more space so everything is visible
+      var geoEpsilon = 0.003     // The bounds are tight, give a bit more space so everything is visible
       var bounds = this.photoInfo.bounds
       this.map.fitBounds([
           [bounds.minLatitude - geoEpsilon, bounds.minLongitude - geoEpsilon],
           [bounds.maxLatitude + geoEpsilon, bounds.maxLongitude + geoEpsilon]])
+    },
 
+    filteredItems () {
       var markers = []
-      for (var p of this.photoInfo.photos) {
-        var mark = Leaflet.marker([p.latitude, p.longitude], { icon: this.getDefaultThumbnailIcon(p), photo: p })
+      for (var item of this.filteredItems) {
+        var mark = Leaflet.marker([item.latitude, item.longitude], { icon: this.getDefaultThumbnailIcon(item), photo: item })
         mark.on('click', evt => {
           if (this.locallySelectedPhoto === evt.target.options.photo) {
             this.$store.commit('selectItem', {item: null, zoomTo: false})
@@ -110,10 +126,11 @@ export default {
           }
         })
 
-        p.marker = mark
+        item.marker = mark
         markers.push(mark)
       }
 
+      this.cluster.removeLayers(this.cluster.getLayers())
       this.cluster.addLayers(markers)
       this.cluster.addTo(this.map)
     }
@@ -204,12 +221,24 @@ export default {
   flex: 1 1 auto;
 }
 
-.filmToggle {
+.filterControls {
+  z-index: 10000;
+  color: black;
+}
+
+.menus-on-right {
   position: relative;
   top: 0px;
-  left: 93%;
+  left: 88%;
   z-index: 10000;
   line-height: 0.5em;
+}
+
+.filterButton {
+  color: black;
+}
+
+.filmToggle {
   color: black;
 }
 

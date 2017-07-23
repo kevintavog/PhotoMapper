@@ -7,10 +7,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     photoInfo: { photos: [] },
+    filteredItems: [],
     errorList: [],
     selectedItem: null,
     zoomToSelected: false,
-    showFilmStrip: true
+    showFilmStrip: true,
+    showFilters: false
   },
 
   mutations: {
@@ -22,7 +24,11 @@ export default new Vuex.Store({
             list.forEach(p => {
               p.dateTime = new Date(p.timestamp)
             })
+            response.data.filters.forEach(f => {
+              f.selectedCount = 0
+            })
             state.photoInfo = response.data
+            state.filteredItems = state.photoInfo.photos
           } else {
             state.errorList.push('Request failed: %d, %s', response.status, response.data)
           }
@@ -43,6 +49,34 @@ export default new Vuex.Store({
       }
     },
 
+    filterUpdated (state, params) {
+      if (params.filterValue.selected) {
+        params.filter.selectedCount += 1
+      } else {
+        params.filter.selectedCount -= 1
+      }
+
+      // For each filter (city, country, ...) - if no filter values are selected, the filter
+      // isn't applied.
+      // If some filter values are selected, all selected values are OR'd together
+      // If both city & year are selected, it's an AND operation
+      state.filteredItems = state.photoInfo.photos.filter(item => {
+        var match = true
+        state.photoInfo.filters.forEach(f => {
+          // An earlier filter matched
+          if (match) {
+            if (f.selectedCount > 0) {
+              // It's only a match if a selected value matches the item
+              match = f.values.filter(fv => {
+                return fv.selected && fv.value === item[f.field]
+              }).length > 0
+            }
+          }
+        })
+        return match
+      })
+    },
+
     selectItem (state, params) {
       state.zoomToSelected = params.zoomTo
       if (!params.item) {
@@ -53,6 +87,10 @@ export default new Vuex.Store({
       if (params.item !== state.selectedItem) {
         state.selectedItem = params.item
       }
+    },
+
+    setShowFilters (state, isVisible) {
+      state.showFilters = isVisible
     },
 
     setFilmStripVisible (state, isVisible) {
