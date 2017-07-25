@@ -12,7 +12,7 @@ export default new Vuex.Store({
     selectedItem: null,
     zoomToSelected: false,
     showFilmStrip: true,
-    showFilters: false
+    showFilters: true
   },
 
   mutations: {
@@ -26,6 +26,7 @@ export default new Vuex.Store({
             })
             response.data.filters.forEach(f => {
               f.selectedCount = 0
+              f.expanded = true
             })
             state.photoInfo = response.data
             state.filteredItems = state.photoInfo.photos
@@ -47,6 +48,10 @@ export default new Vuex.Store({
       if (index >= 0) {
         state.errorList.splice(index, 1)
       }
+    },
+
+    toggleExpanded (state, filter) {
+      filter.expanded = !filter.expanded
     },
 
     filterUpdated (state, params) {

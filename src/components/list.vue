@@ -85,7 +85,6 @@ export default {
 
 .list {
   flex: 0 1 auto;
-  /*overflow-x: scroll;*/ /* mobile only? */
   overflow-y: hidden;
   white-space: nowrap;
   background-color: #212F3D;
