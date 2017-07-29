@@ -1,12 +1,11 @@
 <template>
   <div class="geoMap" id="theMap" >
-      <div class="menus-on-right" >
-          <a aria-role="button"
-            class="c-button c-button--warning u-large c-text--loud filterButton"
-            v-on:click="toggleFilters()">
-              &#9776;
-          </a>
-
+      <a aria-role="button"
+        class="c-button u-medium c-text--loud filterButton"
+        v-on:click="toggleFilters()">
+          &#x1F50D;
+      </a>
+      <div class="filmToggleParent" >
           <a aria-role="button" v-if="this.showFilmStrip"
             class="c-button c-button--warning u-large c-text--loud filmToggle"
             v-on:click="setFilmStripVisible(false)"
@@ -225,19 +224,25 @@ export default {
   color: black;
 }
 
-.menus-on-right {
-  position: relative;
-  top: 0px;
-  left: 88%;
-  z-index: 10000;
-  line-height: 0.5em;
+.filmToggleParent {
 }
 
 .filterButton {
+  position: absolute;
+  top: 80px;
+  right: 15px;
+  z-index: 10000;
+  /*line-height: 0.5em;*/
   color: black;
+  background-color: white;
 }
 
 .filmToggle {
+  position: absolute;
+  top: 0px;
+  right: 100px;
+  z-index: 10000;
+  line-height: 0.5em;
   color: black;
 }
 
