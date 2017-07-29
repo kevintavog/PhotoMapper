@@ -80,7 +80,6 @@ export default {
 <style scoped>
 
 .outerList {
-  min-height: 109px;
 }
 
 .list {
