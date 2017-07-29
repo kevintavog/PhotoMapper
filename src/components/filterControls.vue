@@ -84,13 +84,12 @@ export default {
 <style scoped>
 
 .filters {
+    overflow-y: auto;
+
     color: white;
-    z-index: 10000;
-    width: 350px;
     margin-left: 3px;
     padding-left: 5px;
     background-color: black;
-    flex-shrink: 0;
 }
 
 .filterHeader {
@@ -100,8 +99,6 @@ export default {
 }
 
 .filterContents {
-  overflow-y: auto;
-  height:90%;
 }
 
 .filterName {

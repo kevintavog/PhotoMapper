@@ -12,7 +12,7 @@ export default new Vuex.Store({
     selectedItem: null,
     zoomToSelected: false,
     showFilmStrip: true,
-    showFilters: true
+    showFilters: false
   },
 
   mutations: {

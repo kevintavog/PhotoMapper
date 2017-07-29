@@ -214,13 +214,10 @@ export default {
 <style scoped>
 
 .geoMap {
-  height: 100%;
   border: 1px #888 solid;
   border-left: none;
   border-right: none;
   margin: 0;
-  flex: 1 1 auto;
-  flex-flow: column;
 }
 
 .filterControls {

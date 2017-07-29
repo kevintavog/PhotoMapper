@@ -1,17 +1,15 @@
 <template>
-  <div class="outerList">
-      <div v-if="this.showFilmStrip" class="list " >
-          <div >
-              <div class="c-alert c-alert--error" v-for="er in this.errorList">
-                  <button class="c-button c-button--close" v-on:click="removeError(er)">×</button>
-                  {{er}}
-              </div>
+  <div v-if="this.showFilmStrip" class="list " >
+      <div >
+          <div class="c-alert c-alert--error" v-for="er in this.errorList">
+              <button class="c-button c-button--close" v-on:click="removeError(er)">×</button>
+              {{er}}
           </div>
-          <div class="listItem" :id="'listitem-' + item.popupsImage" v-for="(item,index) in this.filteredItems" >
-              <img class="listImage" :class="{ 'selectedListImage': isSelected(item)}"
-                    :src="item.thumbnail"
-                    v-on:click="selectImage(item)" />
-          </div>
+      </div>
+      <div class="listItem" :id="'listitem-' + item.popupsImage" v-for="(item,index) in this.filteredItems" >
+          <img class="listImage" :class="{ 'selectedListImage': isSelected(item)}"
+                :src="item.thumbnail"
+                v-on:click="selectImage(item)" />
       </div>
   </div>
 </template>
@@ -79,15 +77,12 @@ export default {
 
 <style scoped>
 
-.outerList {
-}
-
 .list {
-  flex: 0 1 auto;
+  display: inline-flex;
   overflow-y: hidden;
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;  /* Much better, more natural scrolling on iOS */
   background-color: #212F3D;
-  -webkit-overflow-scrolling: touch; /* Much better, more natural scrolling on iOS */
 }
 
 .listItem {

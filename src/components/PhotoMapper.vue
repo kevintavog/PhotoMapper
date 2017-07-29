@@ -1,8 +1,8 @@
 <template>
-  <div class="photoMapper">
-      <!-- <modalView></modalView> -->
+  <div class="photoMapper" :class="{'show-filter':this.showFilters, 'hide-filter':!this.showFilters}">
+      <modalView></modalView>
       <filterControls></filterControls>
-      <div class="main">
+      <div class="main" :class="{'show-list':this.showFilmStrip, 'hide-list':!this.showFilmStrip}">
           <list></list>
           <geoMap></geoMap>
       </div>
@@ -15,14 +15,25 @@ import filterControls from './filterControls'
 import geoMap from './geoMap'
 import list from './list'
 import modalView from './modalView'
+import { mapState } from 'vuex'
 
 export default {
   name: 'photomapper',
+
   components: { geoMap, list, filterControls, modalView },
+
   data () {
     return {
     }
+  },
+
+  computed: {
+    ...mapState({
+      showFilters: state => state.showFilters,
+      showFilmStrip: state => state.showFilmStrip
+    })
   }
+
 }
 </script>
 
@@ -30,38 +41,29 @@ export default {
 <style scoped>
 
 .photoMapper {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-flow: column;
-  overflow: hidden;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.show-filter {
+    grid-template-columns: max-content 1fr;
+}
+
+.hide-filter {
+    grid-template-columns: 1fr;
 }
 
 .main {
-  height: 100%;
+    display: grid;
 }
 
-/*header {
-  z-index: 0;
-  display: flex;
+.show-list {
+    grid-template-rows: max-content 1fr;
 }
 
-app {
-    flex: 1;
-    display: flex;
-    overflow: auto;
+.hide-list {
+    grid-template-rows: 1fr;
 }
-
-nav {
-    flex: 0 0;
-    order: 0;
-}
-
-article {
-    flex: 1;
-    order: 1;
-    overflow: hidden;
-}*/
-
-
 </style>
