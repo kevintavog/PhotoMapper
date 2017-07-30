@@ -11,6 +11,7 @@
               All {{photoInfo.photos.length}} items filtered out
           </div>
           <button class="c-button c-button--success closeButton" v-on:click="closeFilters()">Close</button>
+          <button class="c-button fitmapButton" v-on:click="fitMap()">Fit</button>
           <hr>
       </span>
 
@@ -39,7 +40,8 @@ export default {
     ...mapState({
       photoInfo: state => state.photoInfo,
       filteredItems: state => state.filteredItems,
-      showFilters: state => state.showFilters
+      showFilters: state => state.showFilters,
+      bus: state => state.bus
     })
   },
 
@@ -62,6 +64,10 @@ export default {
       } else {
         return '(' + filter.selectedCount + ')'
       }
+    },
+
+    fitMap: function () {
+      this.bus.$emit('fitMap', 1)
     },
 
     closeFilters: function () {
@@ -96,6 +102,10 @@ export default {
 }
 
 .closeButton {
+}
+
+.fitmapButton{
+  float: right;
 }
 
 .filterContents {

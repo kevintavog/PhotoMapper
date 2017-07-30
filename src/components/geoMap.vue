@@ -5,6 +5,13 @@
         v-on:click="toggleFilters()">
           &#x1F50D;
       </a>
+
+      <a aria-role="button"
+        class="c-button u-medium c-text--loud fitMapButton"
+        v-on:click="fitMap()">
+          &#128437;
+      </a>
+
       <div class="filmToggleParent" >
           <a aria-role="button" v-if="this.showFilmStrip"
             class="c-button c-button--warning u-large c-text--loud filmToggle"
@@ -65,6 +72,28 @@ export default {
 
     toggleFocused: function (evt) {
       console.log('toggleFocused: %o', evt)
+    },
+
+    fitMap () {
+      console.log('fit map to filtered items')
+      if (this.filteredItems.length < 1) {
+        return
+      }
+
+      var minLatitude = this.filteredItems[0].latitude
+      var maxLatitude = minLatitude
+      var minLongitude = this.filteredItems[0].longitude
+      var maxLongitude = minLongitude
+      this.filteredItems.forEach(p => {
+        minLatitude = Math.min(minLatitude, p.latitude)
+        maxLatitude = Math.max(maxLatitude, p.latitude)
+        minLongitude = Math.min(minLongitude, p.longitude)
+        maxLongitude = Math.max(maxLongitude, p.longitude)
+      })
+
+      this.map.fitBounds([
+        [minLatitude, minLongitude],
+        [maxLatitude, maxLongitude]])
     }
   },
 
@@ -76,7 +105,8 @@ export default {
       selectedItem: state => state.selectedItem,
       zoomToSelected: state => state.zoomToSelected,
       showFilmStrip: state => state.showFilmStrip,
-      showFilters: state => state.showFilters
+      showFilters: state => state.showFilters,
+      bus: state => state.bus
     })
   },
 
@@ -133,6 +163,7 @@ export default {
       this.cluster.addLayers(markers)
       this.cluster.addTo(this.map)
     }
+
   },
 
   mounted: function () {
@@ -175,6 +206,10 @@ export default {
     this.cluster = newCluster
 
     this.$store.commit('loadPhotos', './static/photodata/photos.json')
+
+    this.bus.$on('fitMap', id => {
+      this.fitMap()
+    })
   }
 
 }
@@ -232,7 +267,15 @@ export default {
   top: 80px;
   right: 15px;
   z-index: 10000;
-  /*line-height: 0.5em;*/
+  color: black;
+  background-color: white;
+}
+
+.fitMapButton {
+  position: absolute;
+  top: 120px;
+  right: 15px;
+  z-index: 10000;
   color: black;
   background-color: white;
 }
