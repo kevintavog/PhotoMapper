@@ -1,5 +1,6 @@
 <template>
-  <div v-show="hasSelection()" class="o-modal modalView">
+  <div v-show="hasSelection()" class="o-modal modalView" draggable="true" @dragstart="dragStart" @drag="drag" @drop="drop" @dragend="dragEnd"
+    v-bind:style="{ transform: 'translate(' + translateX + 'px, ' + translateY + 'px)' }" >
     <div class="c-card">
       <div class="c-card__body modalContent">
         <img v-if="hasSelection()" class="modalImage" :src="selectedItem.popupsImage" :width="selectedItem.popupWidth*.68" :height="selectedItem.popupHeight*.68" />
@@ -30,6 +31,30 @@ export default {
   },
 
   methods: {
+    dragStart: function (evt) {
+      this.startTranslateX = this.translateX
+      this.startTranslateY = this.translateY
+      this.dragStartX = evt.screenX
+      this.dragStartY = evt.screenY
+    },
+
+    drag: function (evt) {
+      this.translateX = evt.screenX - this.dragStartX + this.startTranslateX
+      this.translateY = evt.screenY - this.dragStartY + this.startTranslateY
+    },
+
+    dragEnd: function (evt) {
+      if (this.translateX < 0 && this.translateY < 0) {
+        this.translateX = this.startTranslateX
+        this.translateY = this.startTranslateY
+      }
+    },
+
+    drop: function (evt) {
+      this.dragStartX = -1
+      this.dragStartY = -1
+    },
+
     hasCity: function () {
       return !!this.selectedItem && !!this.selectedItem.city
     },
@@ -53,6 +78,12 @@ export default {
 
   data () {
     return {
+      startTranslateX: 0,
+      startTranslateY: 0,
+      dragStartX: -1,
+      dragStartY: -1,
+      translateX: 0,
+      translateY: 0
     }
   }
 }
@@ -69,6 +100,8 @@ export default {
   width:auto;
   top: 15px;
   left: 15px;
+
+  transform: translate(0px, 0px);
 }
 
 .on-the-right {

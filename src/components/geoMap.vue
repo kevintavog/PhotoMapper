@@ -75,7 +75,6 @@ export default {
     },
 
     fitMap () {
-      console.log('fit map to filtered items')
       if (this.filteredItems.length < 1) {
         return
       }

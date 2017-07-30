@@ -1,5 +1,5 @@
 <template>
-  <div class="photoMapper" :class="{'show-filter':this.showFilters, 'hide-filter':!this.showFilters}">
+  <div class="photoMapper" :class="{'show-filter':this.showFilters, 'hide-filter':!this.showFilters}" @dragover="allowDrop" >
       <modalView></modalView>
       <filterControls></filterControls>
       <div class="main" :class="{'show-list':this.showFilmStrip, 'hide-list':!this.showFilmStrip}">
@@ -24,6 +24,12 @@ export default {
 
   data () {
     return {
+    }
+  },
+
+  methods: {
+    allowDrop: function (event) {
+      event.preventDefault()
     }
   },
 
