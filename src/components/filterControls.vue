@@ -96,16 +96,19 @@ export default {
     margin-left: 3px;
     padding-left: 5px;
     background-color: black;
+    width: 300px;
 }
 
 .filterHeader {
 }
 
 .closeButton {
+  margin-left: 5px;
 }
 
 .fitmapButton{
   float: right;
+  margin-right: 5px;
 }
 
 .filterContents {

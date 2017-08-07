@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.showFilmStrip" class="list " >
+  <div v-if="this.showFilmStrip" class="list" :class="{'list-with-filter':this.showFilters, 'list-no-filter':!this.showFilters}">
       <div >
           <div class="c-alert c-alert--error" v-for="er in this.errorList">
               <button class="c-button c-button--close" v-on:click="removeError(er)">×</button>
@@ -8,8 +8,7 @@
       </div>
       <div class="listItem" :id="'listitem-' + item.popupsImage" v-for="(item,index) in this.filteredItems" >
           <img class="listImage" :class="{ 'selectedListImage': isSelected(item)}"
-                :src="item.thumbnail"
-                v-on:click="selectImage(item)" />
+              :src="item.thumbnail" v-on:click="selectImage(item)" />
       </div>
   </div>
 </template>
@@ -26,6 +25,7 @@ export default {
       filteredItems: state => state.filteredItems,
       errorList: state => state.errorList,
       selectedItem: state => state.selectedItem,
+      showFilters: state => state.showFilters,
       showFilmStrip: state => state.showFilmStrip
     })
   },
@@ -80,9 +80,18 @@ export default {
 .list {
   display: inline-flex;
   overflow-y: hidden;
+  overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;  /* Much better, more natural scrolling on iOS */
   background-color: #212F3D;
+}
+
+.list-with-filter {
+  max-width: calc(100vw - 300px);
+}
+
+.list-no-filter {
+  max-width: 100vw;
 }
 
 .listItem {
