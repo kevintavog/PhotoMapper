@@ -1,6 +1,6 @@
 <template>
   <div class="photoMapper" :class="{'show-filter':this.showFilters, 'hide-filter':!this.showFilters}" @dragover="allowDrop" >
-      <modalView></modalView>
+      <modalView></modalView> 
       <filterControls></filterControls>
       <div class="main" :class="{'show-list':this.showFilmStrip, 'hide-list':!this.showFilmStrip}">
           <list></list>
@@ -66,7 +66,7 @@ export default {
 }
 
 .show-list {
-    grid-template-rows: max-content 1fr;
+    grid-template-rows: auto 1fr;
 }
 
 .hide-list {
