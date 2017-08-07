@@ -54,7 +54,7 @@ export default {
 }
 
 .show-filter {
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: auto 1fr;
 }
 
 .hide-filter {

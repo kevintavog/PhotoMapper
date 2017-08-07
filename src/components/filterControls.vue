@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.showFilters" class="filters">
-      <span class="filterHeader">
+      <div class="filterHeader">
           <div v-if="photoInfo.photos.length === filteredItems.length">
               No items filtered out
           </div>
@@ -13,7 +13,7 @@
           <button class="c-button c-button--success closeButton" v-on:click="closeFilters()">Close</button>
           <button class="c-button fitmapButton" v-on:click="fitMap()">Fit</button>
           <hr>
-      </span>
+      </div>
 
       <div class="filterContents" >
           <div class="" v-for="f in this.photoInfo.filters">
@@ -90,7 +90,8 @@ export default {
 <style scoped>
 
 .filters {
-    overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 
     color: white;
     margin-left: 3px;
@@ -100,6 +101,9 @@ export default {
 }
 
 .filterHeader {
+    position: sticky;
+    top: 0px;
+    background-color: black;
 }
 
 .closeButton {
@@ -112,6 +116,8 @@ export default {
 }
 
 .filterContents {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .filterName {
