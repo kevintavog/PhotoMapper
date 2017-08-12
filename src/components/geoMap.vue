@@ -1,16 +1,19 @@
 <template>
   <div class="geoMap" id="theMap" >
+
+    <div class="button-group">
       <a aria-role="button"
-        class="c-button u-medium c-text--loud filterButton"
+        class="c-button u-xlarge c-text--loud filterButton"
         v-on:click="toggleFilters()">
           &#x1F50D;
       </a>
 
       <a aria-role="button"
-        class="c-button u-medium c-text--loud fitMapButton"
+        class="c-button u-xlarge c-text--loud fitMapButton"
         v-on:click="fitMap()">
-          <img src="static/graphics/FitToMap.png" width="24" />
+          &#x25A2;
       </a>
+    </div>
 
       <div class="filmToggleParent" >
           <a aria-role="button" v-if="this.showFilmStrip"
@@ -254,31 +257,35 @@ export default {
   margin: 0;
 }
 
-.filterControls {
-  z-index: 10000;
-  color: black;
-}
-
 .filmToggleParent {
 }
 
-.filterButton {
+.button-group {
   position: absolute;
   top: 80px;
-  right: 15px;
+  right: 12px;
   z-index: 10000;
+  display: block;
+  border: 2px solid #b3b3b3;
+  border: 2px solid #b3b3b380;
+}
+.filterButton {
   color: black;
   background-color: white;
+  display: block;
+  border-radius: 0px;
+  padding: 1px 4px;
+  margin: 0px;
+  border-bottom: 1px solid #cccccc;
 }
 
 .fitMapButton {
-  position: absolute;
-  top: 120px;
-  right: 15px;
-  z-index: 10000;
   color: black;
   padding: 0px;
+  margin: 0px;
   background-color: white;
+  display: block;
+  border-radius: 0px;
 }
 
 .filmToggle {
