@@ -1,8 +1,8 @@
 <template>
-  <div class="photoMapper" :class="{'show-filter':this.showFilters, 'hide-filter':!this.showFilters}" @dragover="allowDrop" >
+  <div class="photoMapper" @dragover="allowDrop" >
       <modalView></modalView> 
       <filterControls></filterControls>
-      <div class="main" :class="{'show-list':this.showFilmStrip, 'hide-list':!this.showFilmStrip}">
+      <div class="main" :class="{'with-filters':this.showFilters}">
           <list></list>
           <geoMap></geoMap>
       </div>
@@ -47,29 +47,21 @@ export default {
 <style scoped>
 
 .photoMapper {
-    display: grid;
-    width: 100vw;
-    height: 100%;
-    overflow: hidden;
-}
-
-.show-filter {
-    grid-template-columns: auto 1fr;
-}
-
-.hide-filter {
-    grid-template-columns: 1fr;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
 }
 
 .main {
-    display: grid;
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
-.show-list {
-    grid-template-rows: auto 1fr;
+.with-filters {
+  width: calc(100vw - 300px);
 }
 
-.hide-list {
-    grid-template-rows: 1fr;
-}
 </style>

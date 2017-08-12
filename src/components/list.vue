@@ -79,19 +79,13 @@ export default {
 
 .list {
   display: inline-flex;
+  flex-shrink: 0;
+  max-width: 100vw;
   overflow-y: hidden;
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;  /* Much better, more natural scrolling on iOS */
   background-color: #212F3D;
-}
-
-.list-with-filter {
-  max-width: calc(100vw - 300px);
-}
-
-.list-no-filter {
-  max-width: 100vw;
 }
 
 .listItem {

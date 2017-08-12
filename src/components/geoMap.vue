@@ -247,6 +247,7 @@ export default {
 <style scoped>
 
 .geoMap {
+  flex-grow: 1;
   border: 1px #888 solid;
   border-left: none;
   border-right: none;

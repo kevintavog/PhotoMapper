@@ -90,20 +90,20 @@ export default {
 <style scoped>
 
 .filters {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
 
-    color: white;
-    margin-left: 3px;
-    padding-left: 5px;
-    background-color: black;
-    width: 300px;
+  color: white;
+  margin-left: 3px;
+  padding-left: 5px;
+  background-color: black;
 }
 
 .filterHeader {
-    position: sticky;
-    top: 0px;
-    background-color: black;
+  flex-shrink: 0;
+  background-color: black;
 }
 
 .closeButton {
@@ -116,8 +116,8 @@ export default {
 }
 
 .filterContents {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .filterName {
