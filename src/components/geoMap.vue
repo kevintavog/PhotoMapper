@@ -1,16 +1,18 @@
 <template>
   <div class="geoMap" id="theMap" >
 
-    <div class="button-group">
+    <div class="leaflet-bar leaflet-control button-group">
       <a aria-role="button"
-        class="c-button u-xlarge c-text--loud filterButton"
-        v-on:click="toggleFilters()">
+        class="c-button u-xlarge filterButton"
+        v-on:click="toggleFilters()"
+        title="Toggle filters">
           &#x1F50D;
       </a>
 
       <a aria-role="button"
-        class="c-button u-xlarge c-text--loud fitMapButton"
-        v-on:click="fitMap()">
+        class="c-button u-large c-text--loud fitMapButton"
+        v-on:click="fitMap()"
+        title="Fit to map">
           &#x25A2;
       </a>
     </div>
@@ -263,11 +265,8 @@ export default {
 .button-group {
   position: absolute;
   top: 80px;
-  right: 12px;
-  z-index: 10000;
+  right: 10px; 
   display: block;
-  border: 2px solid #b3b3b3;
-  border: 2px solid #b3b3b380;
 }
 .filterButton {
   color: black;

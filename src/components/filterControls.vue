@@ -11,7 +11,7 @@
               All {{photoInfo.photos.length}} items filtered out
           </div>
           <button class="c-button c-button--success closeButton" v-on:click="closeFilters()">Close</button>
-          <button class="c-button fitmapButton" v-on:click="fitMap()">Fit</button>
+          <button class="c-button fitmapButton" v-on:click="fitMap()"><span class="button-icon">&#x25A2;</span> Fit</button>
           <hr>
       </div>
 
@@ -114,8 +114,13 @@ export default {
 .fitmapButton{
   float: right;
   margin-right: 5px;
+  padding: .3em;
 }
 
+.button-icon {
+  font-weight: bold;
+  font-size: 1.3em;
+}
 .filterContents {
   flex-grow: 1;
   overflow-y: auto;
