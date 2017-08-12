@@ -9,7 +9,7 @@
       <a aria-role="button"
         class="c-button u-medium c-text--loud fitMapButton"
         v-on:click="fitMap()">
-          &#128437;
+          <img src="static/graphics/FitToMap.png" width="24" />
       </a>
 
       <div class="filmToggleParent" >
@@ -277,6 +277,7 @@ export default {
   right: 15px;
   z-index: 10000;
   color: black;
+  padding: 0px;
   background-color: white;
 }
 
