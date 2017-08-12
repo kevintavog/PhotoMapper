@@ -91,6 +91,7 @@ export default {
 
 .filters {
   height: 100%;
+  width: 350px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;

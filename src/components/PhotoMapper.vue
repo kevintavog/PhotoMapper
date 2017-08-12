@@ -61,7 +61,7 @@ export default {
 }
 
 .with-filters {
-  width: calc(100vw - 300px);
+   width: calc(100vw - 350px);
 }
 
 </style>
